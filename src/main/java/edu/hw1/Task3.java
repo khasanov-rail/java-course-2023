@@ -25,10 +25,4 @@ public class Task3 {
         return minA1 > minA2 && maxA1 < maxA2;
     }
 
-//    public static void main(String[] args) {
-//        System.out.println(isNestable(new int[]{1, 2, 3, 4}, new int[]{0, 6}));  // true
-//        System.out.println(isNestable(new int[]{3, 1}, new int[]{4, 0}));  // true
-//        System.out.println(isNestable(new int[]{9, 9, 8}, new int[]{8, 9}));  // false
-//        System.out.println(isNestable(new int[]{1, 2, 3, 4}, new int[]{2, 3}));  // false
-//    }
 }

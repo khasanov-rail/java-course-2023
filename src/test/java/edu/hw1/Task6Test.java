@@ -1,64 +1,90 @@
 package edu.hw1;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 public class Task6Test {
 
-    @Test
-    void testCountKForKnownNumbers() {
-        assertEquals(3, Task6.countK(3524));
-        assertEquals(5, Task6.countK(6621));
-        assertEquals(4, Task6.countK(6554));
-        assertEquals(3, Task6.countK(1234));
+    @ParameterizedTest
+    @MethodSource("knownNumbers")
+    void testCountKForKnownNumbers(int input, int expected) {
+        // Arrange
+        int number = input;
+
+        // Act
+        int result = Task6.countK(number);
+
+        // Assert
+        Assertions.assertEquals(expected, result);
     }
 
-    @Test
-    void testCountKForNegativeNumbers() {
-        assertEquals(-1, Task6.countK(-1234));
-        assertEquals(-1, Task6.countK(-3524));
+    private static Stream<Arguments> knownNumbers() {
+        return Stream.of(
+            Arguments.of(3524, 3),
+            Arguments.of(6621, 5),
+            Arguments.of(6554, 4),
+            Arguments.of(1234, 3)
+        );
     }
 
-    @Test
-    void testCountKForNumbersLessThan1000() {
-        assertEquals(-1, Task6.countK(999));
-        assertEquals(-1, Task6.countK(123));
-        assertEquals(-1, Task6.countK(100));
+    @ParameterizedTest
+    @MethodSource("boundaryAndSpecialCases")
+    void testCountKForBoundaryAndSpecialCases(int input, int expected) {
+        // Arrange
+        int number = input;
+
+        // Act
+        int result = Task6.countK(number);
+
+        // Assert
+        Assertions.assertEquals(expected, result);
     }
 
-    @Test
-    void testCountKForNumber1000() {
-        assertEquals(-1, Task6.countK(1000));
+    private static Stream<Arguments> boundaryAndSpecialCases() {
+        return Stream.of(
+            Arguments.of(-1234, -1),
+            Arguments.of(-3524, -1),
+            Arguments.of(999, -1),
+            Arguments.of(123, -1),
+            Arguments.of(100, -1),
+            Arguments.of(1000, -1),
+            Arguments.of(10000, -1),
+            Arguments.of(12345, -1),
+            Arguments.of(1111, -1),
+            Arguments.of(2222, -1),
+            Arguments.of(3333, -1),
+            Arguments.of(4444, -1),
+            Arguments.of(5555, -1),
+            Arguments.of(6666, -1),
+            Arguments.of(7777, -1),
+            Arguments.of(8888, -1),
+            Arguments.of(9999, -1),
+            Arguments.of(6174, 0)
+        );
     }
 
-    @Test
-    void testCountKForNumbersGreaterThan9999() {
-        assertEquals(-1, Task6.countK(10000));
-        assertEquals(-1, Task6.countK(12345));
+    @ParameterizedTest
+    @MethodSource("randomNumbers")
+    void testCountKForRandomNumbers(int input, int expected) {
+        // Arrange
+        int number = input;
+
+        // Act
+        int result = Task6.countK(number);
+
+        // Assert
+        Assertions.assertEquals(expected, result);
     }
 
-    @Test
-    void testCountKForNumbersWithSameDigits() {
-        assertEquals(-1, Task6.countK(1111));
-        assertEquals(-1, Task6.countK(2222));
-        assertEquals(-1, Task6.countK(3333));
-        assertEquals(-1, Task6.countK(4444));
-        assertEquals(-1, Task6.countK(5555));
-        assertEquals(-1, Task6.countK(6666));
-        assertEquals(-1, Task6.countK(7777));
-        assertEquals(-1, Task6.countK(8888));
-        assertEquals(-1, Task6.countK(9999));
-    }
-
-    @Test
-    void testCountKForKaprekarNumber() {
-        assertEquals(0, Task6.countK(6174));
-    }
-
-    @Test
-    void testCountKForRandomNumbers() {
-        assertEquals(4, Task6.countK(9995));
-        assertEquals(5, Task6.countK(9832));
-        assertEquals(4, Task6.countK(1001));
+    private static Stream<Arguments> randomNumbers() {
+        return Stream.of(
+            Arguments.of(9995, 4),
+            Arguments.of(9832, 5),
+            Arguments.of(1001, 4)
+        );
     }
 }

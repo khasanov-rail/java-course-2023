@@ -6,7 +6,7 @@ public class Task6 {
 
     private static final int MIN_VALUE = 1000;
     private static final int MAX_VALUE = 9999;
-    private static final int SPECIAL_VALUE = 6174;
+    private static final int KAPREKAR_CONSTANT = 6174;
     private static final String FORMAT_STRING = "%04d";
 
     private Task6() {
@@ -17,7 +17,7 @@ public class Task6 {
         if (n < MIN_VALUE || n > MAX_VALUE || allDigitsSame(n) || n == MIN_VALUE) {
             return -1;
         }
-        if (n == SPECIAL_VALUE) {
+        if (n == KAPREKAR_CONSTANT) {
             return 0;
         }
         return 1 + countK(getKValue(n));
@@ -52,19 +52,6 @@ public class Task6 {
         return Integer.parseInt(sb.reverse().toString());
     }
 
-//    public static void main(String[] args) {
-//        System.out.println(countK(3524));  // 3
-//        System.out.println(countK(6621));  // 5
-//        System.out.println(countK(6554));  // 4
-//        System.out.println(countK(1234));  // 3
-//        System.out.println(countK(999));   // -1
-//        System.out.println(countK(10000)); // -1
-//        System.out.println(countK(-1234)); // -1
-//        System.out.println(countK(1000));  // -1
-//        System.out.println(countK(1002));  // 3
-//        System.out.println(countK(4444));  // -1
-//        System.out.println(countK(6666));  // -1
-//    }
 }
 
 

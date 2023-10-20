@@ -8,6 +8,7 @@ public class Task8Test {
 
     @Test
     public void testKnightBoardCapture1() {
+        // Arrange
         int[][] board = {
             {0, 0, 0, 1, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0},
@@ -18,6 +19,7 @@ public class Task8Test {
             {0, 1, 0, 0, 0, 0, 0, 1},
             {0, 0, 0, 0, 1, 0, 0, 0}
         };
+        // Assert
         assertTrue(Task8.knightBoardCapture(board));
     }
 

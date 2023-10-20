@@ -1,52 +1,71 @@
 package edu.hw1;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Task1Test {
 
-    @Test
-    public void testCorrectValues() {
-        assertEquals(60, Task1.minutesToSeconds("01:00"));
-        assertEquals(836, Task1.minutesToSeconds("13:56"));
-        assertEquals(5999, Task1.minutesToSeconds("99:59"));
+    @ParameterizedTest
+    @CsvSource({
+        "01:00, 60",
+        "13:56, 836",
+        "99:59, 5999"
+    })
+    public void testCorrectValues(String input, int expected) {
+        // Act
+        int result = Task1.minutesToSeconds(input);
+
+        // Assert
+        assertEquals(expected, result);
     }
 
-    @Test
-    public void testLargeMinutesValues() {
-        assertEquals(60059, Task1.minutesToSeconds("1000:59"));
-        assertEquals(59999, Task1.minutesToSeconds("999:59"));
-        assertEquals(120000, Task1.minutesToSeconds("2000:00"));
+    @ParameterizedTest
+    @CsvSource({
+        "1000:59, 60059",
+        "999:59, 59999",
+        "2000:00, 120000"
+    })
+    public void testLargeMinutesValues(String input, int expected) {
+        // Act
+        int result = Task1.minutesToSeconds(input);
+
+        // Assert
+        assertEquals(expected, result);
     }
 
-
-    @Test
-    public void testIncorrectSecondsValues() {
-        assertEquals(-1, Task1.minutesToSeconds("10:60"));
-        assertEquals(-1, Task1.minutesToSeconds("10:61"));
+    @ParameterizedTest
+    @ValueSource(strings = {"10:60", "10:61"})
+    public void testIncorrectSecondsValues(String input) {
+        assertEquals(-1, Task1.minutesToSeconds(input));
     }
 
-    @Test
-    public void testIncorrectFormat() {
-        assertEquals(-1, Task1.minutesToSeconds("10:601"));
-        assertEquals(-1, Task1.minutesToSeconds("10"));
-        assertEquals(-1, Task1.minutesToSeconds(":10"));
-        assertEquals(-1, Task1.minutesToSeconds("10:"));
-        assertEquals(-1, Task1.minutesToSeconds(":"));
-        assertEquals(-1, Task1.minutesToSeconds("10:10:10"));
+    @ParameterizedTest
+    @ValueSource(strings = {"10:601", "10", ":10", "10:", ":", "10:10:10"})
+    public void testIncorrectFormat(String input) {
+        assertEquals(-1, Task1.minutesToSeconds(input));
     }
 
-    @Test
-    public void testBoundaryValues() {
-        assertEquals(0, Task1.minutesToSeconds("00:00"));
-        assertEquals(1, Task1.minutesToSeconds("00:01"));
-        assertEquals(59, Task1.minutesToSeconds("00:59"));
+    @ParameterizedTest
+    @CsvSource({
+        "00:00, 0",
+        "00:01, 1",
+        "00:59, 59"
+    })
+    public void testBoundaryValues(String input, int expected) {
+        // Act
+        int result = Task1.minutesToSeconds(input);
+
+        // Assert
+        assertEquals(expected, result);
     }
 
-    @Test
-    public void testNegativeValues() {
-        assertEquals(-1, Task1.minutesToSeconds("-10:10")); // тест на отрицательные минуты
-        assertEquals(-1, Task1.minutesToSeconds("10:-10")); // тест на отрицательные секунды
+    @ParameterizedTest
+    @ValueSource(strings = {"-10:10", "10:-10"})
+    public void testNegativeValues(String input) {
+        assertEquals(-1, Task1.minutesToSeconds(input));
     }
 }

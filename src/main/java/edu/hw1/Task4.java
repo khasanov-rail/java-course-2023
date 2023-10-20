@@ -26,9 +26,4 @@ public class Task4 {
         return fixed.toString();
     }
 
-//    public static void main(String[] args) {
-//        System.out.println(fixString("123456"));  // "214365"
-//        System.out.println(fixString("hTsii  s aimex dpus rtni.g"));  // "This is a mixed up string."
-//        System.out.println(fixString("badce"));  // "abcde"
-//    }
 }

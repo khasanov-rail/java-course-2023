@@ -2,36 +2,27 @@ package edu.hw1;
 
 public class Task1 {
 
-    private static final int SECONDS_PER_MINUTE = 60;
-
     private Task1() {
-        // This utility class is not publicly instantiable.
     }
 
+    @SuppressWarnings("MagicNumber")
     public static int minutesToSeconds(String videoLength) {
+        int result = -1;
 
         String[] parts = videoLength.split(":");
-        if (parts.length != 2) {
-            return -1;
-        }
+        if (parts.length == 2) {
+            try {
+                int minutes = Integer.parseInt(parts[0]);
+                int seconds = Integer.parseInt(parts[1]);
 
-        try {
-            int minutes = Integer.parseInt(parts[0]);
-            int seconds = Integer.parseInt(parts[1]);
+                if (seconds < 60 && seconds >= 0 && minutes >= 0 && minutes <= (Integer.MAX_VALUE / 60)) {
+                    result = minutes * 60 + seconds;
+                }
 
-            if (seconds >= SECONDS_PER_MINUTE || seconds < 0 || minutes < 0) {
-                return -1;
+            } catch (NumberFormatException e) {
             }
-
-            return minutes * SECONDS_PER_MINUTE + seconds;
-        } catch (NumberFormatException e) {
-            return -1;
         }
-    }
 
-//    public static void main(String[] args) {
-//        System.out.println(minutesToSeconds("01:00")); // 60
-//        System.out.println(minutesToSeconds("13:56")); // 836
-//        System.out.println(minutesToSeconds("10:60")); // -1
-//    }
+        return result;
+    }
 }

@@ -1,32 +1,62 @@
 package edu.hw1;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 public class Task5Test {
 
-    @Test
-    void testIsPalindromeDescendantTrueCases() {
-        assertTrue(Task5.isPalindromeDescendant(11211230));  // 11211230 -> 2333 -> 56 -> 11
-        assertTrue(Task5.isPalindromeDescendant(13001120));  // 13001120 -> 4022 ➞ 44
-        assertTrue(Task5.isPalindromeDescendant(23336014));  // 23336014 -> 5665
-        assertTrue(Task5.isPalindromeDescendant(11));        // 11
-        assertTrue(Task5.isPalindromeDescendant(93287));     // 93287 -> 12107 -> 317 -> 47 -> 11
-        assertTrue(Task5.isPalindromeDescendant(123));       // 123 -> 33
-        assertTrue(Task5.isPalindromeDescendant(1377));
+    @ParameterizedTest
+    @MethodSource("trueCases")
+    void testIsPalindromeDescendantTrueCases(int input) {
+        // Arrange
+        // В этом случае данные уже подготовлены через @MethodSource
+
+        // Act
+        boolean result = Task5.isPalindromeDescendant(input);
+
+        // Assert
+        Assertions.assertTrue(result);
     }
 
-    @Test
-    void testIsPalindromeDescendantFalseCases() {
-        assertFalse(Task5.isPalindromeDescendant(12345678));
-        assertFalse(Task5.isPalindromeDescendant(9));
-        assertFalse(Task5.isPalindromeDescendant(45));
-        assertFalse(Task5.isPalindromeDescendant(1233211));
-        assertFalse(Task5.isPalindromeDescendant(-11));
-        assertFalse(Task5.isPalindromeDescendant(-123));
-        assertFalse(Task5.isPalindromeDescendant(-17));
-        assertFalse(Task5.isPalindromeDescendant(17));
+    private static Stream<Arguments> trueCases() {
+        return Stream.of(
+            Arguments.of(11211230),
+            Arguments.of(13001120),
+            Arguments.of(23336014),
+            Arguments.of(11),
+            Arguments.of(93287),
+            Arguments.of(123),
+            Arguments.of(1377)
+        );
     }
 
+    @ParameterizedTest
+    @MethodSource("falseCases")
+    void testIsPalindromeDescendantFalseCases(int input) {
+        // Arrange
+        // В этом случае данные уже подготовлены через @MethodSource
+
+        // Act
+        boolean result = Task5.isPalindromeDescendant(input);
+
+        // Assert
+        Assertions.assertFalse(result);
+    }
+
+    private static Stream<Arguments> falseCases() {
+        return Stream.of(
+            Arguments.of(12345678),
+            Arguments.of(9),
+            Arguments.of(45),
+            Arguments.of(1233211),
+            Arguments.of(-11),
+            Arguments.of(-123),
+            Arguments.of(-17),
+            Arguments.of(17)
+        );
+    }
 }
-

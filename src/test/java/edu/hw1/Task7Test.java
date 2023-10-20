@@ -7,46 +7,103 @@ public class Task7Test {
 
     @Test
     public void testTaskStandardCases() {
-        // Test the provided examples
-        assertEquals(4, Task7.rotateRight(8, 1));
-        assertEquals(1, Task7.rotateLeft(16, 1));
-        assertEquals(6, Task7.rotateLeft(17, 2));
+        // Arrange
+        int input1 = 8;
+        int shift1 = 1;
+        int input2 = 16;
+        int shift2 = 1;
+        int input3 = 17;
+        int shift3 = 2;
+
+        // Act
+        int result1 = Task7.rotateRight(input1, shift1);
+        int result2 = Task7.rotateLeft(input2, shift2);
+        int result3 = Task7.rotateLeft(input3, shift3);
+
+        // Assert
+        assertEquals(4, result1);
+        assertEquals(1, result2);
+        assertEquals(6, result3);
     }
 
     @Test
     public void testRotateRight() {
-        assertEquals(4, Task7.rotateRight(8, 1));
-        assertEquals(2, Task7.rotateRight(4, 1));
-        assertEquals(1, Task7.rotateRight(2, 1));
-        assertEquals(1, Task7.rotateRight(1, 1));
-        assertEquals(17, Task7.rotateRight(17, 5));
+        // Arrange
+        int[] inputs = {8, 4, 2, 1, 17};
+        int[] shifts = {1, 1, 1, 1, 5};
+
+        // Act
+        int[] results = new int[inputs.length];
+        for (int i = 0; i < inputs.length; i++) {
+            results[i] = Task7.rotateRight(inputs[i], shifts[i]);
+        }
+
+        // Assert
+        int[] expected = {4, 2, 1, 1, 17};
+        for (int i = 0; i < results.length; i++) {
+            assertEquals(expected[i], results[i]);
+        }
     }
 
     @Test
     public void testRotateLeft() {
-        assertEquals(1, Task7.rotateLeft(16, 1));
-        assertEquals(1, Task7.rotateLeft(1, 1));
-        assertEquals(1, Task7.rotateLeft(2, 1));
-        assertEquals(1, Task7.rotateLeft(8, 1));
-        assertEquals(17, Task7.rotateLeft(17, 5));
-        assertEquals(6, Task7.rotateLeft(17, 2));
+        // Arrange
+        int[] inputs = {16, 1, 2, 8, 17, 17};
+        int[] shifts = {1, 1, 1, 1, 5, 2};
+
+        // Act
+        int[] results = new int[inputs.length];
+        for (int i = 0; i < inputs.length; i++) {
+            results[i] = Task7.rotateLeft(inputs[i], shifts[i]);
+        }
+
+        // Assert
+        int[] expected = {1, 1, 1, 1, 17, 6};
+        for (int i = 0; i < results.length; i++) {
+            assertEquals(expected[i], results[i]);
+        }
     }
 
     @Test
     public void testLargeShifts() {
-        // Testing large shifts to ensure cyclical behavior
-        assertEquals(4, Task7.rotateRight(8, 33));
-        assertEquals(4, Task7.rotateLeft(16, 33));
+        // Arrange
+        int input1 = 8;
+        int shift1 = 33;
+        int input2 = 16;
+        int shift2 = 33;
+
+        // Act
+        int result1 = Task7.rotateRight(input1, shift1);
+        int result2 = Task7.rotateLeft(input2, shift2);
+
+        // Assert
+        assertEquals(4, result1);
+        assertEquals(4, result2);
     }
 
     @Test
     void leftMSB() {
-        assertEquals(Task7.MSB, Task7.rotateLeft(Task7.MSB, Integer.SIZE)); // тест на крайние случаи
+        // Arrange
+        int input = Task7.MSB;
+        int shift = Integer.SIZE;
+
+        // Act
+        int result = Task7.rotateLeft(input, shift);
+
+        // Assert
+        assertEquals(Task7.MSB, result);
     }
 
     @Test
     void rightMSB() {
-        assertEquals(Task7.MSB, Task7.rotateRight(Task7.MSB, Integer.SIZE));  // тест на крайние случаи
-    }
+        // Arrange
+        int input = Task7.MSB;
+        int shift = Integer.SIZE;
 
+        // Act
+        int result = Task7.rotateRight(input, shift);
+
+        // Assert
+        assertEquals(Task7.MSB, result);
+    }
 }

@@ -38,14 +38,4 @@ public class Task5 {
         return descendant.toString();
     }
 
-//    public static void main(String[] args) {
-//        System.out.println(isPalindromeDescendant(11211230));  // true
-//        System.out.println(isPalindromeDescendant(13001120));  // true
-//        System.out.println(isPalindromeDescendant(23336014));  // true
-//        System.out.println(isPalindromeDescendant(11));        // true
-//        System.out.println(isPalindromeDescendant(93287));     // true
-//        System.out.println(isPalindromeDescendant(123));       // true
-//        System.out.println(isPalindromeDescendant(-123));      // false
-//        System.out.println(isPalindromeDescendant(17));        // false
-//    }
 }

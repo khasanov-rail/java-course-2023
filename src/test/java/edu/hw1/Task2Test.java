@@ -1,23 +1,30 @@
 package edu.hw1;
 
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class Task2Test {
 
-    @Test
-    public void testCountDigits() {
-        assertEquals(4, Task2.countDigits(4666));
-        assertEquals(3, Task2.countDigits(544));
-        assertEquals(1, Task2.countDigits(0));
-        assertEquals(5, Task2.countDigits(12345));
-        assertEquals(1, Task2.countDigits(-5));
-        assertEquals(6, Task2.countDigits(999999));
-        assertEquals(7, Task2.countDigits(1000000));
-        assertEquals(2, Task2.countDigits(-99));
-        assertEquals(3, Task2.countDigits(-100));
-        assertEquals(10, Task2.countDigits(Integer.MAX_VALUE));
-        assertEquals(10, Task2.countDigits(Integer.MIN_VALUE));
+    @ParameterizedTest
+    @CsvSource({
+        "4666, 4",
+        "544, 3",
+        "0, 1",
+        "12345, 5",
+        "-5, 1",
+        "999999, 6",
+        "1000000, 7",
+        "-99, 2",
+        "-100, 3",
+        "" + Integer.MAX_VALUE + ", 10",
+        "" + Integer.MIN_VALUE + ", 10"
+    })
+    public void testCountDigits(int number, int expectedDigitsCount) {
+        // Act
+        int result = Task2.countDigits(number);
+
+        // Assert
+        Assertions.assertEquals(expectedDigitsCount, result);
     }
 }
