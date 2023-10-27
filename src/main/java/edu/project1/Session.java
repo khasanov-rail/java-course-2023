@@ -31,22 +31,19 @@ class Session {
         if (isHit) {
             if (new String(userAnswer).equals(answer)) {
                 return new GuessResult.Win(userAnswer, attempts, maxAttempts, "You won!");
-            } else {
-                return new GuessResult.SuccessfulGuess(userAnswer, attempts, maxAttempts, "Hit!");
             }
-        } else {
-            attempts++;
-            if (attempts >= maxAttempts) {
-                return new GuessResult.Defeat(userAnswer, attempts, maxAttempts, "You lost!");
-            } else {
-                return new GuessResult.FailedGuess(
-                    userAnswer,
-                    attempts,
-                    maxAttempts,
-                    "Missed, mistake " + attempts + " out of " + maxAttempts + "."
-                );
-            }
+            return new GuessResult.SuccessfulGuess(userAnswer, attempts, maxAttempts, "Hit!");
         }
+
+        attempts++;
+        return (attempts >= maxAttempts)
+            ? new GuessResult.Defeat(userAnswer, attempts, maxAttempts, "You lost!")
+            : new GuessResult.FailedGuess(
+            userAnswer,
+            attempts,
+            maxAttempts,
+            "Missed, mistake " + attempts + " out of " + maxAttempts + "."
+        );
     }
 
     @NotNull

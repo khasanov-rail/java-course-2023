@@ -45,7 +45,7 @@ class Task2Test {
         // Act
         double area = square.area();
 
-        // Assert: Проверяем, что площадь измененного квадрата правильная
+        // Assert
         assertEquals(400.0, area, "Площадь квадрата должна быть 400.0 после изменения размеров");
     }
 }

@@ -9,6 +9,7 @@ import org.apache.logging.log4j.core.config.plugins.PluginFactory;
 import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -98,126 +99,121 @@ class ConsoleHangmanTest {
     }
 
     @Test
-    void gameShouldNotStartWithIncorrectWordLength() {  // Игра не должна начинаться, если длина загаданного слова некорректна (в данном случае пустая строка)
+    @DisplayName("Игра не должна начинаться с некорректной длиной загаданного слова")
+    void game_ShouldNotStartWithIncorrectWordLength() {
         // Arrange
         game.setSession(new Session("", 5));
-
         // Act
         game.run();
-
         // Assert
         assertTrue(TestAppender.getLog().contains("The chosen word has an incorrect length. Exiting the game."));
     }
 
     @Test
-    void gameShouldEndWithDefeatAfterMaxAttempts() { // Игра должна завершиться проигрышем после максимального количества попыток (в данном случае 1 попытка)
+    @DisplayName("Игра должна завершиться поражением после максимального количества попыток")
+    void game_ShouldEndWithDefeatAfterMaxAttempts() {
         // Arrange
         game.setSession(new Session("test", 1));
         System.setIn(new ByteArrayInputStream("a\nquit\n".getBytes()));
-
         // Act
         game.run();
-
         // Assert
         assertTrue(TestAppender.getLog().contains("You lost!"));
     }
 
     @Test
-    void gameStateShouldChangeCorrectly() {  // Проверить, что состояние игры корректно изменяется при угадывании букв
+    @DisplayName("Состояние игры должно корректно изменяться при угадывании букв")
+    void game_StateShouldChangeCorrectly() {
         // Arrange
         game.setSession(new Session("test", 5));
         System.setIn(new ByteArrayInputStream("t\ne\ns\nquit\n".getBytes()));
-
         // Act
         game.run();
-
         // Assert
         assertTrue(TestAppender.getLog().contains("The word: test"));
     }
 
     @Test
-    void gameShouldNotChangeStateOnTypo() {  // Игра не должна изменять свое состояние при вводе строки длиной больше 1 символа (опечатка)
+    @DisplayName("Игра не должна изменять свое состояние при вводе строки длиной больше одного символа")
+    void game_ShouldNotChangeStateOnTypo() {
         // Arrange
         game.setSession(new Session("test", 5));
         System.setIn(new ByteArrayInputStream("te\ns\nquit\n".getBytes()));
-
         // Act
         game.run();
-
         // Assert
         assertTrue(TestAppender.getLog().contains("Please enter only one letter."));
         assertFalse(TestAppender.getLog().contains("The word: t***"));
     }
 
     @Test
-    void gameShouldAllowPlayerToGiveUp() {  // проверка возможности сдаться через написание специального слова "quit"
+    @DisplayName("Игрок должен иметь возможность сдаться")
+    void game_ShouldAllowPlayerToGiveUp() {
         // Arrange
         game.setSession(new Session("test", 5));
         System.setIn(new ByteArrayInputStream("quit\n".getBytes()));
-
         // Act
         game.run();
-
         // Assert
         assertTrue(TestAppender.getLog().contains("You gave up!"));
     }
 
-    @Test void gameShouldDisplayWinMessageOnVictory() { // проверка сообщения о победе
+    @Test
+    @DisplayName("Игра должна отображать сообщение о победе, когда игрок угадал все буквы")
+    void game_ShouldDisplayWinMessageOnVictory() {
         // Arrange
         game.setSession(new Session("test", 5));
         System.setIn(new ByteArrayInputStream("t\ne\ns\n".getBytes()));
-
         // Act
         game.run();
-
         // Assert
         assertTrue(TestAppender.getLog().contains("You won!"));
     }
 
-    @Test void gameShouldDisplayDefeatMessageOnLoss() { // проверка сообщения о поражении
+    @Test
+    @DisplayName("Игра должна отображать сообщение о поражении, когда игрок не угадал букву")
+    void game_ShouldDisplayDefeatMessageOnLoss() {
         // Arrange
         game.setSession(new Session("test", 1));
         System.setIn(new ByteArrayInputStream("a\n".getBytes()));
-
         // Act
         game.run();
-
         // Assert
         assertTrue(TestAppender.getLog().contains("You lost!"));
     }
 
-    @Test void gameShouldEndWithWinWhenAllLettersAreGuessed() {  // проверка при угадывании всех букв
+    @Test
+    @DisplayName("Игра должна завершиться победой, когда все буквы угаданы")
+    void game_ShouldEndWithWinWhenAllLettersAreGuessed() {
         // Arrange
         game.setSession(new Session("test", 5));
         System.setIn(new ByteArrayInputStream("t\ne\ns\n".getBytes()));
-
         // Act
         game.run();
-
         // Assert
         assertTrue(TestAppender.getLog().contains("You won!"));
     }
 
-    @Test void gameShouldDisplayCurrentState() { // проверка отображения состояния игры
+    @Test
+    @DisplayName("Игра должна отображать текущее состояние")
+    void game_ShouldDisplayCurrentState() {
         // Arrange
         game.setSession(new Session("test", 5));
         System.setIn(new ByteArrayInputStream("t\nquit\n".getBytes()));
-
         // Act
         game.run();
-
         // Assert
         assertTrue(TestAppender.getLog().contains("The word: t**t"));
     }
 
-    @Test void gameShouldDisplayCorrectWordOnLoss() { // проверка вывода при проигрыше
+    @Test
+    @DisplayName("Игра должна отображать загаданное слово в случае поражения")
+    void game_ShouldDisplayCorrectWordOnLoss() {
         // Arrange
         game.setSession(new Session("test", 1));
         System.setIn(new ByteArrayInputStream("a\nquit\n".getBytes()));
-
         // Act
         game.run();
-
         // Assert
         assertTrue(TestAppender.getLog().contains("The word: ****"));
     }
