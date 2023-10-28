@@ -13,6 +13,11 @@
                 pattern="%d{HH:mm:ss.SSS} %highlight{%-5p} [%-15.15thread] %-15.15logger{20} -- %highlight{%m}%n"
             />
         </Console>
+
+        <!-- Добавляем мой TestAppender -->
+        <TestAppender name="TestAppender">
+            <!--Для добавления дополнительной конфигурации при необходимости -->
+        </TestAppender>
     </Appenders>
 
     <Loggers>
@@ -21,7 +26,10 @@
         <Logger name="sun.rmi" level="WARN"/>
         <Logger name="sun.rmi.transport" level="WARN"/>
 
-        <Logger name="edu" level="TRACE"/>
+        <Logger name="edu" level="TRACE">
+            <AppenderRef ref="STDOUT_PLAIN"/>
+            <AppenderRef ref="TestAppender"/> <!-- Ссылка на мой TestAppender -->
+        </Logger>
 
         <Root level="INFO">
             <AppenderRef ref="STDOUT_PLAIN"/>
