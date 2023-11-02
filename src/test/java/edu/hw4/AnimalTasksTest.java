@@ -230,7 +230,6 @@ public class AnimalTasksTest {
         assertEquals(List.of(cat, bird), animalsWithLongNames);
     }
 
-
     @Test
     @DisplayName("Тест на задачу 14")
     void isThereADogTallerThan_shouldReturnTrueIfDogIsTaller() {
@@ -318,7 +317,6 @@ public class AnimalTasksTest {
         assertTrue(result);
     }
 
-
     @Test
     @DisplayName("Тест на задачу 17: дополнительный тест")
     void doSpidersBiteMoreOftenThanDogs_shouldReturnFalseIfDogsBiteMore() {
@@ -391,5 +389,4 @@ public class AnimalTasksTest {
         );
         assertEquals(expected, result);
     }
-
 }

@@ -188,6 +188,7 @@ public class AnimalTasks {
             .collect(Collectors.toMap(
                 Map.Entry::getKey,
                 entry -> entry.getValue().stream()
+                    .sorted(Comparator.comparing(Enum::name))
                     .map(ValidationError::toString)
                     .collect(Collectors.joining(", ")),
                 (e1, e2) -> e1,
