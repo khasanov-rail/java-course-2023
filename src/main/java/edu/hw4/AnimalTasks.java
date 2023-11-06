@@ -86,7 +86,7 @@ public class AnimalTasks {
     public static List<Animal> getBitingAnimalsAboveHeight(List<Animal> animals, int height) { // Задача 11
         return animals.stream()
             .filter(animal -> animal.bites() && animal.height() > height)
-            .collect(Collectors.toList());
+            .toList(); // Внес изменение: Используем .toList() вместо collect(Collectors.toList())
     }
 
     public static long countAnimalsWithWeightGreaterThanHeight(List<Animal> animals) { // Задача 12
