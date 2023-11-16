@@ -8,34 +8,33 @@ import java.util.Optional;
 
 public class Task3 {
 
-    public Optional<LocalDate> parseDate(String string) {
-        LocalDate result = null;
+    public Optional<LocalDate> parseDate(String dateString) {
+        LocalDate parsedDate = null;
 
-        if (string == null) {
-            throw new IllegalArgumentException("String cannot be null");
+        if (dateString == null) {
+            throw new IllegalArgumentException("Date string cannot be null");
         }
 
-
         try {
-            if (string.matches("\\d{4}-\\d{1,2}-\\d{1,2}")) {
+            if (dateString.matches("\\d{4}-\\d{1,2}-\\d{1,2}")) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
-                result = LocalDate.parse(string, formatter);
-            } else if (string.matches("\\d{1,2}/\\d{1,2}/\\d{2,4}")) {
+                parsedDate = LocalDate.parse(dateString, formatter);
+            } else if (dateString.matches("\\d{1,2}/\\d{1,2}/\\d{2,4}")) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/[[uuuu][uu]]", Locale.ENGLISH);
-                result = LocalDate.parse(string, formatter);
-            } else if ("today".equals(string)) {
-                result = LocalDate.now();
-            } else if ("tomorrow".equals(string)) {
-                result = LocalDate.now().plusDays(1);
-            } else if ("yesterday".equals(string)) {
-                result = LocalDate.now().minusDays(1);
-            } else if (string.matches("\\d+ days? ago")) {
-                int days = Integer.parseInt(string.split(" ")[0]);
-                result = LocalDate.now().minusDays(days);
+                parsedDate = LocalDate.parse(dateString, formatter);
+            } else if ("today".equals(dateString)) {
+                parsedDate = LocalDate.now();
+            } else if ("tomorrow".equals(dateString)) {
+                parsedDate = LocalDate.now().plusDays(1);
+            } else if ("yesterday".equals(dateString)) {
+                parsedDate = LocalDate.now().minusDays(1);
+            } else if (dateString.matches("\\d+ days? ago")) {
+                int days = Integer.parseInt(dateString.split(" ")[0]);
+                parsedDate = LocalDate.now().minusDays(days);
             }
         } catch (DateTimeParseException ignored) {
         }
 
-        return Optional.ofNullable(result);
+        return Optional.ofNullable(parsedDate);
     }
 }
