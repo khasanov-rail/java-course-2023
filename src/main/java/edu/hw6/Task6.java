@@ -67,7 +67,8 @@ public class Task6 {
                 try (ServerSocket serverSocket = new ServerSocket(port)) {
                     return true;
                 }
-            } else if (protocol.equals(PROTOCOL_UDP)) {
+            }
+            if (protocol.equals(PROTOCOL_UDP)) {
                 try (DatagramSocket datagramSocket = new DatagramSocket(port)) {
                     return true;
                 }
