@@ -6,13 +6,13 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @SuppressWarnings("checkstyle:RegexpSinglelineJava")
 public class CacheInvocationHandler implements InvocationHandler {
     private final Object delegate;
-    private final Map<String, Object> cache = new HashMap<>();
+    private final Map<String, Object> cache = new ConcurrentHashMap<>();
 
     public CacheInvocationHandler(Object delegate) {
         this.delegate = delegate;
@@ -21,22 +21,36 @@ public class CacheInvocationHandler implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         if (method.isAnnotationPresent(Cache.class)) {
-            String key = method.getName() + args[0];
+            String key = generateKey(method, args);
             if (cache.containsKey(key)) {
                 return cache.get(key);
             }
 
-            Object result = method.invoke(delegate, args);
-            cache.put(key, result);
+            synchronized (this) {
+                if (cache.containsKey(key)) {
+                    return cache.get(key);
+                }
 
-            if (method.getAnnotation(Cache.class).persist()) {
-                saveResultToDisk(key, result);
+                Object result = method.invoke(delegate, args);
+                cache.put(key, result);
+
+                if (method.getAnnotation(Cache.class).persist()) {
+                    saveResultToDisk(key, result);
+                }
+
+                return result;
             }
-
-            return result;
         }
 
         return method.invoke(delegate, args);
+    }
+
+    private String generateKey(Method method, Object[] args) {
+        StringBuilder keyBuilder = new StringBuilder(method.getName());
+        for (Object arg : args) {
+            keyBuilder.append("_").append(arg);
+        }
+        return keyBuilder.toString();
     }
 
     private void saveResultToDisk(String key, Object result) {

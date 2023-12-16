@@ -63,6 +63,9 @@ public class RandomObjectGenerator {
             int max = parameter.isAnnotationPresent(Max.class)
                 ? parameter.getAnnotation(Max.class).value()
                 : Integer.MAX_VALUE;
+            if (min > max) {
+                throw new IllegalArgumentException("Min value cannot be greater than max value");
+            }
             value = random.nextInt(max - min + 1) + min;
         } else if (type.equals(String.class)) {
             value = generateRandomString();
