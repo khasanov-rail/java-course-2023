@@ -50,13 +50,14 @@ public class AStarSolverMulti {
                 for (Coordinate next : neighbors) {
                     Future<?> future = executorService.submit(() -> {
                         double newCost = costSoFar.getOrDefault(current, Double.MAX_VALUE) + 1;
-                        synchronized (costSoFar) {
-                            if (!costSoFar.containsKey(next) || newCost < costSoFar.get(next)) {
-                                costSoFar.put(next, newCost);
+                        costSoFar.compute(next, (key, currentCost) -> {
+                            if (currentCost == null || newCost < currentCost) {
                                 frontier.add(next);
                                 cameFrom.put(next, current);
+                                return newCost;
                             }
-                        }
+                            return currentCost;
+                        });
                     });
                     futures.add(future);
                 }
